@@ -6,7 +6,8 @@ class SharedPreferencesStorage<T> implements Storage<T> {
     required this.toJson,
     required this.fromJson,
     required this.instance,
-  }) : _key = 'rp_persist_$key';
+    String keyPrefix = 'rp_persist_',
+  }) : _key = '$keyPrefix$key';
 
   final String _key;
   final ToJson<T> toJson;
