@@ -34,6 +34,10 @@ void main() async {
       container.read(counterProvider.notifier).increment();
       expect(container.read(counterProvider), 11);
       expect(storage.get(), 11);
+
+      // Refresh the notifier provider and check initial value is updated
+      container.refresh(counterProvider);
+      expect(container.read(counterProvider), 11);
     });
   });
 }
