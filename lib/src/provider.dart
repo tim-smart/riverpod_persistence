@@ -16,7 +16,7 @@ P persistProvider<P extends AlwaysAliveProviderListenable<T>, T>(
   final storageProvider = Provider(buildStorage);
 
   T? read(Ref ref) => ref.read(storageProvider).get();
-  void Function(T item) write(Ref ref) => ref.read(storageProvider).set;
+  void Function(T item) write(Ref ref) => ref.watch(storageProvider).set;
 
   return create(read, write);
 }
