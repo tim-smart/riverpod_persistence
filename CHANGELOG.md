@@ -1,3 +1,7 @@
+## 0.0.2
+
+- Simplify `read` API
+
 ## 0.0.1+1
 
 - Update README
