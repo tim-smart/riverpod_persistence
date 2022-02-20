@@ -1,3 +1,7 @@
+## 0.0.3
+
+- Use `ref.watch` in `write` implementation
+
 ## 0.0.2
 
 - Simplify `read` API
