@@ -19,7 +19,7 @@ final counterProvider =
     counter.addListener(write(ref));
     return counter;
   }),
-  buildStorage: (watch) => storage,
+  buildStorage: (ref) => storage,
 );
 
 void main() async {
@@ -27,9 +27,10 @@ void main() async {
     test('it works with StateNotifier', () async {
       final container = ProviderContainer();
 
-      // Start persistence effect
+      // Initial value should have been loaded
       expect(container.read(counterProvider), 10);
 
+      // Test persistence back to storage
       container.read(counterProvider.notifier).increment();
       expect(container.read(counterProvider), 11);
       expect(storage.get(), 11);
