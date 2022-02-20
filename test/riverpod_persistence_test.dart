@@ -1,5 +1,5 @@
 import 'package:riverpod/riverpod.dart';
-import 'package:riverpod_persistence/src/provider.dart';
+import 'package:riverpod_persistence/riverpod_persistence.dart';
 import 'package:test/test.dart';
 
 import 'test_storage.dart';
