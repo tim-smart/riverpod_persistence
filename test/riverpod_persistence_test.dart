@@ -14,8 +14,8 @@ final storage = TestStorage(10);
 
 final counterProvider =
     persistProvider<StateNotifierProvider<Counter, int>, int>(
-  (initial, write) => StateNotifierProvider((ref) {
-    final counter = Counter(ref.read(initial) ?? 0);
+  (read, write) => StateNotifierProvider((ref) {
+    final counter = Counter(read(ref) ?? 0);
     counter.addListener(write(ref));
     return counter;
   }),

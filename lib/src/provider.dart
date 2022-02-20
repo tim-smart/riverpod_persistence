@@ -1,10 +1,11 @@
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_persistence/src/storage.dart';
 
+typedef PersistReader<T> = T? Function(Ref);
 typedef PersistWriter<T> = void Function(T) Function(Ref);
 typedef PersistCreate<P extends AlwaysAliveProviderListenable<T>, T> = P
     Function(
-  ProviderBase<T?> initialProvider,
+  PersistReader<T> read,
   PersistWriter<T> write,
 );
 
@@ -13,9 +14,9 @@ P persistProvider<P extends AlwaysAliveProviderListenable<T>, T>(
   required Storage<T> Function(Ref ref) buildStorage,
 }) {
   final storageProvider = Provider(buildStorage);
-  final initialProvider = Provider((ref) => ref.watch(storageProvider).get());
 
+  T? read(Ref ref) => ref.read(storageProvider).get();
   void Function(T item) write(Ref ref) => ref.read(storageProvider).set;
 
-  return create(initialProvider, write);
+  return create(read, write);
 }
