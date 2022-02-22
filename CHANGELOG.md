@@ -1,3 +1,7 @@
+## 0.0.4
+
+- Relax provider type parameters
+
 ## 0.0.3
 
 - Use `ref.watch` in `write` implementation
