@@ -17,11 +17,12 @@ class SharedPreferencesStorage<T> implements Storage<T> {
   @override
   T? get() => O
       .fromNullable(instance.getString(_key))
+      .p(O.chainNullableK(json.decode))
       .p(O.map(fromJson))
       .p(O.toNullable);
 
   @override
   void set(item) {
-    instance.setString(_key, toJson(item));
+    instance.setString(_key, json.encode(toJson(item)));
   }
 }
