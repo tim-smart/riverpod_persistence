@@ -1,3 +1,7 @@
+## 0.0.5
+
+- Fix shared preferences storage encoding / decoding
+
 ## 0.0.4
 
 - Relax provider type parameters
