@@ -10,16 +10,17 @@ class Counter extends StateNotifier<int> {
   void decrement() => state = state - 1;
 }
 
-final storage = TestStorage(10);
+final storage = TestStorage<int>();
+final storageTwo = TestStorage<int>();
 
-final counterProvider =
-    persistProvider<StateNotifierProvider<Counter, int>, int>(
-  (read, write) => StateNotifierProvider((ref) {
-    final counter = Counter(read(ref) ?? 0);
-    counter.addListener(write(ref));
-    return counter;
-  }),
+final counterProvider = persistStateNotifierProvider<Counter, int>(
+  (ref, initialValue) => Counter(initialValue ?? 0),
   buildStorage: (ref) => storage,
+);
+
+final stateProvider = persistStateProvider(
+  initialValue: 10,
+  buildStorage: (ref) => storageTwo,
 );
 
 void main() async {
@@ -27,17 +28,36 @@ void main() async {
     test('it works with StateNotifier', () async {
       final container = ProviderContainer();
 
-      // Initial value should have been loaded
-      expect(container.read(counterProvider), 10);
+      // Starts with zero
+      expect(container.read(counterProvider), 0);
 
       // Test persistence back to storage
       container.read(counterProvider.notifier).increment();
-      expect(container.read(counterProvider), 11);
-      expect(storage.get(), 11);
+      expect(container.read(counterProvider), 1);
+      expect(storage.get(), 1);
 
       // Refresh the notifier provider and check initial value is updated
-      container.refresh(counterProvider);
-      expect(container.read(counterProvider), 11);
+      container.refresh(counterProvider.notifier);
+      expect(container.read(counterProvider), 1);
+    });
+
+    test('it works with StateProvider', () async {
+      final container = ProviderContainer();
+
+      // Starts with zero
+      expect(container.read(stateProvider), 10);
+
+      // Wait for write to be connected
+      await Future.microtask(() => null);
+
+      // Test persistence back to storage
+      container.read(stateProvider.notifier).update((state) => state + 1);
+      expect(container.read(stateProvider), 11);
+      expect(storageTwo.get(), 11);
+
+      // Refresh the notifier provider and check initial value is updated
+      container.refresh(stateProvider.notifier);
+      expect(container.read(stateProvider), 11);
     });
   });
 }

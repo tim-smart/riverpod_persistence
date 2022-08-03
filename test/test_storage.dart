@@ -1,8 +1,6 @@
 import 'package:riverpod_persistence/src/storage.dart';
 
 class TestStorage<T> implements Storage<T> {
-  TestStorage(this._value);
-
   T? _value;
 
   @override
