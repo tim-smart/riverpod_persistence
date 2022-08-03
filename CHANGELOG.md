@@ -1,3 +1,8 @@
+## 0.0.6
+
+- Add `persistStateProvider` helper
+- Add `persistStateNotifierProvider` helper
+
 ## 0.0.5
 
 - Fix shared preferences storage encoding / decoding
